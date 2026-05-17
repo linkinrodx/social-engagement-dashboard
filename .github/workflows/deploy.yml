@@ -1,0 +1,30 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Inject Supabase credentials
+        run: |
+          sed -i "s/SUPABASE_URL_PLACEHOLDER/${{ secrets.SUPABASE_URL }}/g" src/environments/environment.ts
+          sed -i "s/SUPABASE_ANON_KEY_PLACEHOLDER/${{ secrets.SUPABASE_ANON_KEY }}/g" src/environments/environment.ts
+
+      - run: npm run build
+
+      - name: Upload dist artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/social-engagement-dashboard
