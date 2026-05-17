@@ -1,8 +1,17 @@
-name: Deploy
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -19,12 +28,25 @@ jobs:
 
       - name: Inject Supabase credentials
         run: |
-          sed -i "s/SUPABASE_URL_PLACEHOLDER/${{ secrets.SUPABASE_URL }}/g" src/environments/environment.ts
-          sed -i "s/SUPABASE_ANON_KEY_PLACEHOLDER/${{ secrets.SUPABASE_ANON_KEY }}/g" src/environments/environment.ts
+          for f in src/environments/environment.ts src/environments/environment.development.ts; do
+            sed -i "s|SUPABASE_URL_PLACEHOLDER|${{ secrets.SUPABASE_URL }}|g" "$f"
+            sed -i "s|SUPABASE_ANON_KEY_PLACEHOLDER|${{ secrets.SUPABASE_ANON_KEY }}|g" "$f"
+          done
 
-      - run: npm run build
+      - run: npm run build -- --base-href "${{ vars.BASE_HREF || '/' }}"
 
-      - name: Upload dist artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist/social-engagement-dashboard
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

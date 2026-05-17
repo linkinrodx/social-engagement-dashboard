@@ -56,7 +56,9 @@ Load via `skill` tool when working on: components, signals, routing, HTTP, forms
 - Before first deploy, add these **GitHub Secrets** to the repo:
   - `SUPABASE_URL` — `https://ghznkyqfgsupbndnucuc.supabase.co`
   - `SUPABASE_ANON_KEY` — the anon key from `src/environments/environment.ts` (previous value)
-- Uploads build artifact to `dist/social-engagement-dashboard`
+- Deploys to **GitHub Pages** via `upload-pages-artifact` + `deploy-pages`
+- **Optional**: set a `BASE_HREF` **GitHub Variable** if deploying as a project site (e.g. `/social-engagement-dashboard/`). Defaults to `/` for user/org sites.
+- To enable: go to repo Settings → Pages → Source → "GitHub Actions"
 
 ## State
 - Pre-commit — no commits made yet, repo is fresh
