@@ -1,4 +1,5 @@
 import { Injectable, inject } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 export interface ExecutionLog {
   id: string;
@@ -39,8 +40,8 @@ export interface Settings {
 
 @Injectable({ providedIn: 'root' })
 export class SupabaseService {
-  private readonly url = '';
-  private readonly key = '';
+  private readonly url = environment.supabaseUrl;
+  private readonly key = environment.supabaseAnonKey;
 
   private get headers() {
     return {
