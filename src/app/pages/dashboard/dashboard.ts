@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { SupabaseService, ExecutionLog } from '../../services/supabase.service';
@@ -26,19 +26,25 @@ import { SupabaseService, ExecutionLog } from '../../services/supabase.service';
         <p style="font-size: 2rem;">{{ totalRuns }}</p>
       </mat-card>
     </div>
-  `
+  `,
 })
 export default class DashboardPage {
   private supabase = inject(SupabaseService);
+  private cdr = inject(ChangeDetectorRef);
   todayCount = 0;
   lastRun: ExecutionLog | null = null;
   totalRuns = 0;
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.loadData();
+  }
+
+  private async loadData() {
     this.todayCount = await this.supabase.getDailyCommentCount();
     const logs = await this.supabase.getExecutionLogs(1);
     this.lastRun = logs[0] ?? null;
     const all = await this.supabase.getExecutionLogs(9999);
     this.totalRuns = all.length;
+    this.cdr.detectChanges();
   }
 }

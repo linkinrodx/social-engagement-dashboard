@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { SupabaseService, CommentedPost } from '../../services/supabase.service';
 
@@ -31,13 +31,19 @@ import { SupabaseService, CommentedPost } from '../../services/supabase.service'
         }
       </tbody>
     </table>
-  `
+  `,
 })
 export default class CommentsPage {
   private supabase = inject(SupabaseService);
+  private cdr = inject(ChangeDetectorRef);
   posts: CommentedPost[] = [];
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.loadData();
+  }
+
+  private async loadData() {
     this.posts = await this.supabase.getCommentedPosts();
+    this.cdr.detectChanges();
   }
 }

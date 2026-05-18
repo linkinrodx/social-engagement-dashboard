@@ -68,7 +68,7 @@ export class SupabaseService {
     try {
       const res = await fetch(
         `${this.url}/rest/v1/execution_logs?order=started_at.desc&limit=${limit}`,
-        { headers: this.headers }
+        { headers: this.headers },
       );
       if (!res.ok) return [];
       return await res.json();
@@ -81,7 +81,7 @@ export class SupabaseService {
     try {
       const res = await fetch(
         `${this.url}/rest/v1/commented_posts?order=commented_at.desc&limit=${limit}`,
-        { headers: this.headers }
+        { headers: this.headers },
       );
       if (!res.ok) return [];
       return await res.json();
@@ -93,10 +93,9 @@ export class SupabaseService {
   async getDailyCommentCount(): Promise<number> {
     try {
       const today = new Date().toISOString().split('T')[0];
-      const res = await fetch(
-        `${this.url}/rest/v1/daily_comment_count?date=eq.${today}`,
-        { headers: this.headers }
-      );
+      const res = await fetch(`${this.url}/rest/v1/daily_comment_count?date=eq.${today}`, {
+        headers: this.headers,
+      });
       if (!res.ok) return 0;
       const data: DailyCommentCount[] = await res.json();
       return data[0]?.comment_count ?? 0;

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { SupabaseService, ExecutionLog } from '../../services/supabase.service';
 
@@ -33,13 +33,19 @@ import { SupabaseService, ExecutionLog } from '../../services/supabase.service';
         }
       </tbody>
     </table>
-  `
+  `,
 })
 export default class ExecutionsPage {
   private supabase = inject(SupabaseService);
+  private cdr = inject(ChangeDetectorRef);
   logs: ExecutionLog[] = [];
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.loadData();
+  }
+
+  private async loadData() {
     this.logs = await this.supabase.getExecutionLogs();
+    this.cdr.detectChanges();
   }
 }

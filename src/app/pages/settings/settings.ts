@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SupabaseService, Settings } from '../../services/supabase.service';
 
@@ -32,14 +32,20 @@ import { SupabaseService, Settings } from '../../services/supabase.service';
     } @else {
       <p>Cargando configuración...</p>
     }
-  `
+  `,
 })
 export default class SettingsPage {
   private supabase = inject(SupabaseService);
+  private cdr = inject(ChangeDetectorRef);
   settings: Settings | null = null;
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.loadData();
+  }
+
+  private async loadData() {
     this.settings = await this.supabase.getSettings();
+    this.cdr.detectChanges();
   }
 
   async save() {
