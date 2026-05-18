@@ -35,6 +35,9 @@ jobs:
 
       - run: npm run build -- --base-href "${{ vars.BASE_HREF || '/' }}"
 
+      - name: Copy index.html as 404.html for SPA routing
+        run: cp dist/social-engagement-dashboard/browser/index.html dist/social-engagement-dashboard/browser/404.html
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
