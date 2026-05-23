@@ -10,24 +10,24 @@ import { SupabaseService, Settings } from '../../services/supabase.service';
     <h2>Configuración del Bot</h2>
 
     @if (settings) {
-      <form (ngSubmit)="save()">
-        <div>
-          <label>Habilitado</label>
-          <input type="checkbox" [(ngModel)]="settings.enabled" name="enabled" />
+      <form class="settings-form" (ngSubmit)="save()">
+        <div class="form-field">
+          <label for="enabled">Habilitado</label>
+          <input id="enabled" type="checkbox" [(ngModel)]="settings.enabled" name="enabled" />
         </div>
-        <div>
-          <label>Máx. comentarios por día</label>
-          <input type="number" [(ngModel)]="settings.max_comments_per_day" name="maxComments" />
+        <div class="form-field">
+          <label for="maxComments">Máx. comentarios por día</label>
+          <input id="maxComments" type="number" [(ngModel)]="settings.max_comments_per_day" name="maxComments" />
         </div>
-        <div>
-          <label>Delay mínimo (seg)</label>
-          <input type="number" [(ngModel)]="settings.min_delay_seconds" name="minDelay" />
+        <div class="form-field">
+          <label for="minDelay">Delay mínimo (seg)</label>
+          <input id="minDelay" type="number" [(ngModel)]="settings.min_delay_seconds" name="minDelay" />
         </div>
-        <div>
-          <label>Delay máximo (seg)</label>
-          <input type="number" [(ngModel)]="settings.max_delay_seconds" name="maxDelay" />
+        <div class="form-field">
+          <label for="maxDelay">Delay máximo (seg)</label>
+          <input id="maxDelay" type="number" [(ngModel)]="settings.max_delay_seconds" name="maxDelay" />
         </div>
-        <button type="submit">Guardar</button>
+        <button type="submit" class="save-button">Guardar</button>
       </form>
     } @else {
       <p>Cargando configuración...</p>

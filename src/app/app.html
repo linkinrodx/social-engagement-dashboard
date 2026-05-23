@@ -1,23 +1,35 @@
 <mat-toolbar color="primary">
+  <button
+    mat-icon-button
+    class="menu-button"
+    (click)="toggleSidenav()"
+    aria-label="Toggle navigation"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
   <span>Social Engagement Dashboard</span>
 </mat-toolbar>
 
 <mat-drawer-container>
-  <mat-drawer mode="side" opened>
+  <mat-drawer
+    [mode]="isMobile() ? 'over' : 'side'"
+    [opened]="sidenavOpened()"
+    (closed)="sidenavOpened.set(false)"
+  >
     <mat-nav-list>
-      <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link">
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link" (click)="closeSidenavOnMobile()">
         <mat-icon>dashboard</mat-icon>
         Dashboard
       </a>
-      <a mat-list-item routerLink="/executions" routerLinkActive="active-link">
+      <a mat-list-item routerLink="/executions" routerLinkActive="active-link" (click)="closeSidenavOnMobile()">
         <mat-icon>history</mat-icon>
         Ejecuciones
       </a>
-      <a mat-list-item routerLink="/comments" routerLinkActive="active-link">
+      <a mat-list-item routerLink="/comments" routerLinkActive="active-link" (click)="closeSidenavOnMobile()">
         <mat-icon>comment</mat-icon>
         Comentarios
       </a>
-      <a mat-list-item routerLink="/settings" routerLinkActive="active-link">
+      <a mat-list-item routerLink="/settings" routerLinkActive="active-link" (click)="closeSidenavOnMobile()">
         <mat-icon>settings</mat-icon>
         Configuración
       </a>

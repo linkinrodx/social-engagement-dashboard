@@ -9,28 +9,30 @@ import { SupabaseService, CommentedPost } from '../../services/supabase.service'
   template: `
     <h2>Posts Comentados</h2>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Post ID</th>
-          <th>Comentario</th>
-          <th>Fecha</th>
-          <th>URL</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (post of posts; track post.id) {
+    <div class="table-container">
+      <table>
+        <thead>
           <tr>
-            <td>{{ post.post_id }}</td>
-            <td>{{ post.comment_text }}</td>
-            <td>{{ post.commented_at | date: 'short' }}</td>
-            <td>
-              <a [href]="post.post_url" target="_blank">Ver post</a>
-            </td>
+            <th>Post ID</th>
+            <th>Comentario</th>
+            <th>Fecha</th>
+            <th>URL</th>
           </tr>
-        }
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          @for (post of posts; track post.id) {
+            <tr>
+              <td class="truncate-cell"><span [title]="post.post_id">{{ post.post_id }}</span></td>
+              <td>{{ post.comment_text }}</td>
+              <td>{{ post.commented_at | date: 'short' }}</td>
+              <td>
+                <a [href]="post.post_url" target="_blank">Ver post</a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   `,
 })
 export default class CommentsPage {

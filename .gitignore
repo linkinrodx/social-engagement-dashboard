@@ -32,6 +32,16 @@ yarn-error.log
 !.vscode/mcp.json
 .history/*
 
+# Playwright MCP output
+.playwright-mcp/
+
+# Generated screenshots
+docs/screenshot-*.png
+
+# Review/debug scripts
+scripts/review-*.cjs
+scripts/debug-*.cjs
+
 # Miscellaneous
 /.angular/cache
 .sass-cache/
