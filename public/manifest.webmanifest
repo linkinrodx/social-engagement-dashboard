@@ -1,6 +1,6 @@
 {
   "name": "Social Engagement Dashboard",
-  "short_name": "SEDashboard",
+  "short_name": "SE Dashboard",
   "description": "Dashboard para monitorear la actividad del bot de engagement social",
   "start_url": "./",
   "display": "standalone",
