@@ -2,6 +2,7 @@ import { Component, inject, signal, DestroyRef } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SwUpdate } from '@angular/service-worker';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
@@ -27,11 +28,18 @@ import { MatButtonModule } from '@angular/material/button';
 export class App {
   private breakpointObserver = inject(BreakpointObserver);
   private destroyRef = inject(DestroyRef);
+  private swUpdate = inject(SwUpdate);
 
   isMobile = signal(false);
   sidenavOpened = signal(false);
 
   constructor() {
+    this.swUpdate.versionUpdates.subscribe((event) => {
+      if (event.type === 'VERSION_READY') {
+        const ok = confirm('Nueva versión disponible. ¿Recargar?');
+        if (ok) window.location.reload();
+      }
+    });
     this.breakpointObserver
       .observe(['(max-width: 767.98px)'])
       .pipe(takeUntilDestroyed(this.destroyRef))

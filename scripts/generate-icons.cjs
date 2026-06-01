@@ -57,9 +57,12 @@ function createPNG(width, height, color) {
 }
 
 const primary = [103, 58, 183]; // #673AB7 (Mat deep purple)
-const light = [209, 196, 233];  // lighter variant
+const white = [255, 255, 255];  // white background for maskable
 
+// Regular icons
 fs.writeFileSync(path.join(outDir, 'icon-192x192.png'), createPNG(192, 192, primary));
 fs.writeFileSync(path.join(outDir, 'icon-512x512.png'), createPNG(512, 512, primary));
+// Maskable icon (white bg so it adapts well to android shapes)
+fs.writeFileSync(path.join(outDir, 'icon-maskable-512x512.png'), createPNG(512, 512, white));
 
 console.log('Icons generated in public/');

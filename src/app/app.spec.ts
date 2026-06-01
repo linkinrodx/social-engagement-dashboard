@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { SwUpdate } from '@angular/service-worker';
 import { App } from './app';
 
 describe('App', () => {
@@ -9,17 +10,24 @@ describe('App', () => {
       imports: [App],
       providers: [
         provideRouter([]),
-        {
-          provide: BreakpointObserver,
-          useValue: {
-            observe: () => ({
-              pipe: () => ({
-                subscribe: () => {},
+          {
+            provide: BreakpointObserver,
+            useValue: {
+              observe: () => ({
+                pipe: () => ({
+                  subscribe: () => {},
+                }),
               }),
-            }),
+            },
           },
-        },
-      ],
+          {
+            provide: SwUpdate,
+            useValue: {
+              versionUpdates: { subscribe: () => {} },
+              checkForUpdate: () => Promise.resolve(),
+            },
+          },
+        ],
     }).compileComponents();
   });
 
