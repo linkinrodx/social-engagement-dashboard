@@ -10,7 +10,17 @@
   <span>Social Engagement Dashboard</span>
 </mat-toolbar>
 
-<mat-drawer-container>
+@if (showInstallBanner()) {
+  <div class="install-banner">
+    <span>Instala nuestra app para una experiencia más rápida</span>
+    <button mat-stroked-button color="primary" (click)="installApp()">Instalar</button>
+    <button mat-icon-button class="close-banner" (click)="dismissInstallBanner()" aria-label="Cerrar">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+}
+
+<mat-drawer-container [class.with-banner]="showInstallBanner()">
   <mat-drawer
     [mode]="isMobile() ? 'over' : 'side'"
     [opened]="sidenavOpened()"

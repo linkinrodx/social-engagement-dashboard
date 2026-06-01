@@ -32,6 +32,8 @@ export class App {
 
   isMobile = signal(false);
   sidenavOpened = signal(false);
+  deferredPrompt = signal<any>(null);
+  showInstallBanner = signal(false);
 
   constructor() {
     this.swUpdate.versionUpdates.subscribe((event) => {
@@ -51,6 +53,15 @@ export class App {
           this.sidenavOpened.set(false);
         }
       });
+    window.addEventListener('beforeinstallprompt', (event) => {
+      event.preventDefault();
+      this.deferredPrompt.set(event);
+      this.showInstallBanner.set(true);
+    });
+    window.addEventListener('appinstalled', () => {
+      this.deferredPrompt.set(null);
+      this.showInstallBanner.set(false);
+    });
   }
 
   toggleSidenav() {
@@ -61,5 +72,22 @@ export class App {
     if (this.isMobile()) {
       this.sidenavOpened.set(false);
     }
+  }
+
+  installApp() {
+    const prompt = this.deferredPrompt();
+    if (!prompt) return;
+    prompt.prompt();
+    prompt.userChoice.then((result: { outcome: string }) => {
+      if (result.outcome === 'accepted') {
+        this.showInstallBanner.set(false);
+      }
+      this.deferredPrompt.set(null);
+    });
+  }
+
+  dismissInstallBanner() {
+    this.showInstallBanner.set(false);
+    this.deferredPrompt.set(null);
   }
 }
