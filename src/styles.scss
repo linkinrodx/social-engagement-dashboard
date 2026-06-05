@@ -1,5 +1,33 @@
 @use '@angular/material' as mat;
 
+$light-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: mat.$violet-palette,
+    ),
+  )
+);
+
+$dark-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: dark,
+      primary: mat.$violet-palette,
+    ),
+  )
+);
+
+html {
+  @include mat.all-component-themes($light-theme);
+  @include mat.system-level-colors($light-theme);
+}
+
+html.dark {
+  @include mat.all-component-themes($dark-theme);
+  @include mat.system-level-colors($dark-theme);
+}
+
 html,
 body {
   height: 100%;
@@ -7,6 +35,7 @@ body {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background-color: var(--mat-sys-surface);
 }
 
 .truncate-cell {

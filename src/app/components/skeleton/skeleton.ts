@@ -59,17 +59,17 @@ import { Component, input, computed, ChangeDetectionStrategy } from '@angular/co
       min-width: 200px;
       padding: 16px;
       border-radius: 4px;
-      background: #fff;
+      background: var(--mat-sys-surface);
     }
     .skeleton-table {
       border-radius: 4px;
-      background: #fff;
+      background: var(--mat-sys-surface);
     }
     .skeleton-table-row {
       display: flex;
       gap: 16px;
       padding: 12px 16px;
-      border-bottom: 1px solid rgba(0,0,0,0.06);
+      border-bottom: 1px solid var(--mat-sys-outline-variant);
     }
     .skeleton-table-header .skeleton-cell {
       height: 14px;
@@ -79,8 +79,15 @@ import { Component, input, computed, ChangeDetectionStrategy } from '@angular/co
     .skeleton-cell,
     .skeleton-button {
       border-radius: 4px;
-      background: linear-gradient(90deg, #e0e0e0 0%, #f5f5f5 50%, #e0e0e0 100%);
+      background-color: var(--mat-sys-surface-variant);
+      background-image: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        transparent 100%
+      );
       background-size: 200% 100%;
+      background-repeat: no-repeat;
       animation: shimmer 1.4s ease-in-out infinite;
     }
     .skeleton-line {

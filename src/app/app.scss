@@ -10,6 +10,10 @@ mat-toolbar {
   margin-right: 8px;
 }
 
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
 .install-banner {
   position: fixed;
   top: 64px;
@@ -22,8 +26,8 @@ mat-toolbar {
   padding: 10px 16px;
   padding-left: max(16px, env(safe-area-inset-left));
   padding-right: max(16px, env(safe-area-inset-right));
-  background: #e8def8;
-  color: #1d192b;
+  background: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
   font-size: 14px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
 
@@ -58,16 +62,17 @@ mat-drawer-container.with-banner {
 mat-drawer {
   width: 240px;
   padding-top: 8px;
-  background: #fff;
+  background: var(--mat-sys-surface);
 }
 
 mat-drawer-content {
   padding: 24px;
   padding-bottom: max(24px, env(safe-area-inset-bottom));
+  background: var(--mat-sys-surface);
 }
 
 .active-link {
-  background: rgba(0, 0, 0, 0.04);
+  background: var(--mat-sys-surface-variant);
   font-weight: 500;
 }
 
@@ -92,13 +97,13 @@ th,
 td {
   text-align: left;
   padding: 8px 12px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
   white-space: nowrap;
 }
 
 th {
   font-weight: 500;
-  color: #666;
+  color: var(--mat-sys-on-surface-variant);
 }
 
 .settings-form {
@@ -115,12 +120,12 @@ th {
 .form-field label {
   font-weight: 500;
   font-size: 14px;
-  color: #333;
+  color: var(--mat-sys-on-surface);
 }
 
 .form-field input[type='number'] {
   padding: 8px 12px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--mat-sys-outline);
   border-radius: 4px;
   font-size: 14px;
   width: 100%;
@@ -135,8 +140,8 @@ th {
 
 .save-button {
   padding: 10px 24px;
-  background: #673ab7;
-  color: #fff;
+  background: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
   border: none;
   border-radius: 4px;
   font-size: 14px;
@@ -144,7 +149,7 @@ th {
 }
 
 .save-button:hover {
-  background: #5e35b1;
+  filter: brightness(0.9);
 }
 
 @media (max-width: 767.98px) {

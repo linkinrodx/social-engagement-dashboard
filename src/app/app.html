@@ -8,6 +8,15 @@
     <mat-icon>menu</mat-icon>
   </button>
   <span>Social Engagement Dashboard</span>
+  <span class="toolbar-spacer"></span>
+  <button
+    mat-icon-button
+    (click)="theme.cycle()"
+    [matTooltip]="themeTooltip()"
+    aria-label="Cambiar tema"
+  >
+    <mat-icon>{{ themeIcon() }}</mat-icon>
+  </button>
 </mat-toolbar>
 
 @if (showInstallBanner()) {

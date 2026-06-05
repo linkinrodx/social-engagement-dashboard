@@ -8,6 +8,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +24,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatListModule,
     MatIconModule,
     MatButtonModule,
+    MatTooltipModule,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
@@ -29,6 +33,7 @@ export class App {
   private breakpointObserver = inject(BreakpointObserver);
   private destroyRef = inject(DestroyRef);
   private swUpdate = inject(SwUpdate);
+  readonly theme = inject(ThemeService);
 
   isMobile = signal(false);
   sidenavOpened = signal(false);
@@ -72,6 +77,16 @@ export class App {
     if (this.isMobile()) {
       this.sidenavOpened.set(false);
     }
+  }
+
+  themeIcon() {
+    const icons: Record<string, string> = { light: 'light_mode', dark: 'dark_mode', system: 'brightness_auto' };
+    return icons[this.theme.preference()];
+  }
+
+  themeTooltip() {
+    const labels: Record<string, string> = { light: 'Tema claro', dark: 'Tema oscuro', system: 'Tema del sistema' };
+    return labels[this.theme.preference()];
   }
 
   installApp() {

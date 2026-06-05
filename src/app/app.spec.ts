@@ -4,6 +4,19 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { SwUpdate } from '@angular/service-worker';
 import { App } from './app';
 
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: (query: string) => ({
+    matches: false,
+    media: query,
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    addListener: () => {},
+    removeListener: () => {},
+    dispatchEvent: () => false,
+  }),
+});
+
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -14,9 +27,8 @@ describe('App', () => {
             provide: BreakpointObserver,
             useValue: {
               observe: () => ({
-                pipe: () => ({
-                  subscribe: () => {},
-                }),
+                pipe: () => ({ subscribe: () => ({ unsubscribe: () => {} }) }),
+                subscribe: () => ({ unsubscribe: () => {} }),
               }),
             },
           },
