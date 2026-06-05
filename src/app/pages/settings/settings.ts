@@ -1,15 +1,18 @@
-import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, signal, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { SkeletonComponent } from '../../components/skeleton/skeleton';
 import { SupabaseService, Settings } from '../../services/supabase.service';
 
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, SkeletonComponent],
   template: `
     <h2>Configuración del Bot</h2>
 
-    @if (settings) {
+    @if (loading()) {
+      <app-skeleton variant="form" />
+    } @else if (settings) {
       <form class="settings-form" (ngSubmit)="save()">
         <div class="form-field">
           <label for="enabled">Habilitado</label>
@@ -29,14 +32,13 @@ import { SupabaseService, Settings } from '../../services/supabase.service';
         </div>
         <button type="submit" class="save-button">Guardar</button>
       </form>
-    } @else {
-      <p>Cargando configuración...</p>
     }
   `,
 })
 export default class SettingsPage {
   private supabase = inject(SupabaseService);
   private cdr = inject(ChangeDetectorRef);
+  loading = signal(true);
   settings: Settings | null = null;
 
   ngOnInit() {
@@ -44,8 +46,12 @@ export default class SettingsPage {
   }
 
   private async loadData() {
-    this.settings = await this.supabase.getSettings();
-    this.cdr.detectChanges();
+    try {
+      this.settings = await this.supabase.getSettings();
+    } finally {
+      this.loading.set(false);
+      this.cdr.detectChanges();
+    }
   }
 
   async save() {

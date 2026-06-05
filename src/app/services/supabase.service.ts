@@ -21,13 +21,6 @@ export interface CommentedPost {
   created_at: string;
 }
 
-export interface DailyCommentCount {
-  id: string;
-  date: string;
-  comment_count: number;
-  created_at: string;
-}
-
 export interface Settings {
   id: string;
   enabled: boolean;
@@ -92,13 +85,17 @@ export class SupabaseService {
 
   async getDailyCommentCount(): Promise<number> {
     try {
-      const today = new Date().toISOString().split('T')[0];
-      const res = await fetch(`${this.url}/rest/v1/daily_comment_count?date=eq.${today}`, {
-        headers: this.headers,
-      });
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const res = await fetch(
+        `${this.url}/rest/v1/commented_posts?commented_at=gte.${today.toISOString()}&commented_at=lt.${tomorrow.toISOString()}`,
+        { headers: this.headers },
+      );
       if (!res.ok) return 0;
-      const data: DailyCommentCount[] = await res.json();
-      return data[0]?.comment_count ?? 0;
+      const data: CommentedPost[] = await res.json();
+      return data.length;
     } catch {
       return 0;
     }
