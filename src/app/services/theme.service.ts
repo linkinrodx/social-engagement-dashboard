@@ -30,6 +30,7 @@ export class ThemeService {
       const theme = this.effective();
       document.documentElement.classList.toggle('dark', theme === 'dark');
       this.updateMetaThemeColor(theme);
+      this.setThemeCookie(theme);
     });
   }
 
@@ -51,4 +52,9 @@ export class ThemeService {
     if (meta) {
       meta.setAttribute('content', theme === 'dark' ? '#1e1e1e' : '#f5f5f5');
     }
-  }}
+  }
+
+  private setThemeCookie(theme: 'light' | 'dark') {
+    document.cookie = 'theme=' + theme + '; path=/; SameSite=Lax';
+  }
+}
