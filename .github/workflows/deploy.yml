@@ -33,7 +33,10 @@ jobs:
             sed -i "s|SUPABASE_ANON_KEY_PLACEHOLDER|${{ secrets.SUPABASE_ANON_KEY }}|g" "$f"
           done
 
-      - run: npx ng build --base-href "${{ vars.BASE_HREF || '/' }}"
+      - name: Build
+        env:
+          BASE_HREF: ${{ vars.BASE_HREF || '/' }}
+        run: npx ng build --base-href "$BASE_HREF"
       - run: node scripts/patch-sw.mjs
 
       - name: Copy index.html as 404.html for SPA routing
