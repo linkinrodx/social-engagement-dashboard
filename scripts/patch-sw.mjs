@@ -25,10 +25,14 @@ self.addEventListener('fetch', (event) => {
 async function handleManifestRequest(request) {
   const cookies = request.headers.get('Cookie') || '';
   const isDark = cookies.includes('theme=dark');
-
+  const tag = isDark ? 'dark' : 'light';
   const bgColor = isDark ? '#1e1e1e' : '#f5f5f5';
 
-  const manifest = {
+  if (request.headers.get('If-None-Match') === '"' + tag + '"') {
+    return new Response(null, { status: 304 });
+  }
+
+  const body = JSON.stringify({
     name: 'Social Engagement Dashboard',
     short_name: 'SE Dashboard',
     description: 'Dashboard para monitorear la actividad del bot de engagement social',
@@ -42,12 +46,13 @@ async function handleManifestRequest(request) {
       { src: 'icon-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
       { src: 'icon-maskable-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
     ],
-  };
+  });
 
-  return new Response(JSON.stringify(manifest), {
+  return new Response(body, {
     headers: {
       'Content-Type': 'application/json',
       'Cache-Control': 'no-cache',
+      'ETag': '"' + tag + '"',
     },
   });
 }
