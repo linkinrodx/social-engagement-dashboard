@@ -16,6 +16,7 @@ const customHandler = `
 // ---- PWA manifest theming ----
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
+  if (url.origin !== self.location.origin) return;
   if (url.pathname.endsWith('/manifest.webmanifest')) {
     event.respondWith(handleManifestRequest(event.request));
   }

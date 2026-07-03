@@ -26,7 +26,7 @@
             isDark = true;
           }
         }
-        document.cookie = 'theme=' + (isDark ? 'dark' : 'light') + '; path=/; SameSite=Lax';
+        document.cookie = 'theme=' + (isDark ? 'dark' : 'light') + '; path=/; SameSite=Lax; Secure; Max-Age=31536000';
         if (isDark) {
           document.documentElement.classList.add('dark');
         }

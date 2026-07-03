@@ -55,6 +55,6 @@ export class ThemeService {
   }
 
   private setThemeCookie(theme: 'light' | 'dark') {
-    document.cookie = 'theme=' + theme + '; path=/; SameSite=Lax';
+    document.cookie = 'theme=' + theme + '; path=/; SameSite=Lax; Secure; Max-Age=31536000';
   }
 }
