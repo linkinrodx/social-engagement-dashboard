@@ -5,10 +5,10 @@
     <title>Social Engagement Dashboard</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#f5f5f5" />
+    <meta name="theme-color" content="#f5f5f5" id="theme-color-meta" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="manifest" href="manifest.webmanifest" id="manifest-link" />
     <link rel="apple-touch-icon" href="icon-192x192.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
@@ -16,20 +16,33 @@
       rel="stylesheet"
     />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-  </head>
-  <body>
-    <app-root></app-root>
     <script>
       (function () {
         var theme = localStorage.getItem('theme-preference');
+        var isDark = false;
         if (theme === 'dark') {
-          document.documentElement.classList.add('dark');
+          isDark = true;
         } else if (theme === 'system' || !theme) {
           if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.classList.add('dark');
+            isDark = true;
           }
+        }
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+        }
+        var bgColor = isDark ? '#1e1e1e' : '#f5f5f5';
+        var metaTheme = document.getElementById('theme-color-meta');
+        if (metaTheme) {
+          metaTheme.setAttribute('content', bgColor);
+        }
+        var manifestLink = document.getElementById('manifest-link');
+        if (manifestLink) {
+          manifestLink.href = isDark ? 'manifest-dark.webmanifest' : 'manifest.webmanifest';
         }
       })();
     </script>
+  </head>
+  <body>
+    <app-root></app-root>
   </body>
 </html>
