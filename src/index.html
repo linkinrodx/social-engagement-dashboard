@@ -26,6 +26,7 @@
             isDark = true;
           }
         }
+        document.cookie = 'theme=' + (isDark ? 'dark' : 'light') + '; path=/; SameSite=Lax; Secure; Max-Age=31536000';
         if (isDark) {
           document.documentElement.classList.add('dark');
         }
@@ -34,12 +35,9 @@
         if (metaTheme) {
           metaTheme.setAttribute('content', bgColor);
         }
-        var link = document.createElement('link');
-        link.rel = 'manifest';
-        link.href = isDark ? 'manifest-dark.webmanifest' : 'manifest.webmanifest';
-        document.head.appendChild(link);
       })();
     </script>
+    <link rel="manifest" href="manifest.webmanifest" />
   </head>
   <body>
     <app-root></app-root>
