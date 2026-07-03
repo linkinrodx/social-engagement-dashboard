@@ -29,7 +29,7 @@ async function handleManifestRequest(request) {
   const bgColor = isDark ? '#1e1e1e' : '#f5f5f5';
 
   if (request.headers.get('If-None-Match') === '"' + tag + '"') {
-    return new Response(null, { status: 304 });
+    return new Response(null, { status: 304, headers: { 'Cache-Control': 'no-cache', 'ETag': '"' + tag + '"' } });
   }
 
   const body = JSON.stringify({
