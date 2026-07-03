@@ -30,6 +30,7 @@ export class ThemeService {
       const theme = this.effective();
       document.documentElement.classList.toggle('dark', theme === 'dark');
       this.updateMetaThemeColor(theme);
+      this.updateManifestLink(theme);
     });
   }
 
@@ -50,6 +51,13 @@ export class ThemeService {
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) {
       meta.setAttribute('content', theme === 'dark' ? '#1e1e1e' : '#f5f5f5');
+    }
+  }
+
+  private updateManifestLink(theme: 'light' | 'dark') {
+    const link = document.querySelector('link[rel="manifest"]');
+    if (link) {
+      link.setAttribute('href', theme === 'dark' ? 'manifest-dark.webmanifest' : 'manifest.webmanifest');
     }
   }
 }
